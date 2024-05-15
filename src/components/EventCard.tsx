@@ -9,11 +9,11 @@ type EventCardProps = {
 };
 
 export const EventCard: React.FC<EventCardProps> = ({ entry, onSelect }) => {
-  const selected = entry.selected;
+  const selected = (entry.selectedIndex ?? -1) >= 0;
 
   const decorateWithIndicator = (children: JSX.Element) => {
     return selected ? (
-      <Indicator inline label="1" size={20}>
+      <Indicator label={entry.selectedIndex} position="top-start" size={30}>
         {children}
       </Indicator>
     ) : (
@@ -33,7 +33,7 @@ export const EventCard: React.FC<EventCardProps> = ({ entry, onSelect }) => {
         <Text component="p" style={{ userSelect: "none" }}>
           {entry.fromZone.name}
         </Text>
-        <Text component="p" style={{ userSelect: "none" }} pr="xl" pl="xl">
+        <Text component="p" fw={700} style={{ userSelect: "none" }} pr="xl" pl="xl">
           {entry.carPlate}
         </Text>
         <Text component="p" style={{ userSelect: "none" }}>

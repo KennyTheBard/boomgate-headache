@@ -1,7 +1,17 @@
-import { Box, Center, SimpleGrid, Title } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Group,
+  rem,
+  SimpleGrid,
+  Title,
+} from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { EntryEvent, Zone } from "../types";
 import { TimeTracker, ZoneLedger } from "../components";
+import { IconCar, IconTrash } from "@tabler/icons-react";
 
 type ZoneSurveillanceProps = {
   zones: Zone[];
@@ -10,6 +20,8 @@ type ZoneSurveillanceProps = {
 export const ZoneSurveillance: React.FC<ZoneSurveillanceProps> = ({
   zones,
 }) => {
+  // TODO: generate complete events
+  // TODO: generate entry events
   const [selectedEntryIds, setSelectedEntryIds] = useState<string[]>([]);
   const [entriesPerZones, setEntriesPerZones] = useState<
     Record<string, EntryEvent[]>
@@ -43,15 +55,44 @@ export const ZoneSurveillance: React.FC<ZoneSurveillanceProps> = ({
 
   return (
     <>
-    <Box pt="md" pb="xl">
-      <Center>
-        <Title c="white">
-          Boom Gate Headache
-        </Title>
-      </Center>
-    <TimeTracker durationMs={2 * 60 * 1000} refreshMs={500} />
+      <Box pt="md" pb="xl">
+        <SimpleGrid cols={2} pb="lg">
+          <Center>
+            <Title c="white">Boom Gate Headache</Title>
+          </Center>
+          <Flex
+            mih={50}
+            gap="sm"
+            justify="right"
+            align="flex-end"
+            direction="row"
+            wrap="wrap"
+          >
+            <Button
+              variant="filled"
+              color="gray"
+              size="lg"
+              leftSection={
+                <IconTrash style={{ width: rem(24), height: rem(24) }} />
+              }
+            >
+              Discard
+            </Button>
+            <Button
+              variant="filled"
+              color="green"
+              size="lg"
+              leftSection={
+                <IconCar style={{ width: rem(24), height: rem(24) }} />
+              }
+            >
+              Complete
+            </Button>
+          </Flex>
+        </SimpleGrid>
 
-    </Box>
+        <TimeTracker durationMs={2 * 60 * 1000} refreshMs={500} />
+      </Box>
       <SimpleGrid cols={zones.length + 1}>
         {zones.map((zone, index) => (
           <ZoneLedger
@@ -59,7 +100,9 @@ export const ZoneSurveillance: React.FC<ZoneSurveillanceProps> = ({
             zone={zone}
             entries={entriesPerZones[zone.id].map((entry) => ({
               ...entry,
-              selected: selectedEntryIds.includes(entry.id),
+              selectedIndex: selectedEntryIds.findIndex(
+                (selectedEntryId) => selectedEntryId === entry.id
+              ),
             }))}
             onEntrySelect={onEntrySelect}
           />
