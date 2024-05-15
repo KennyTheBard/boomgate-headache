@@ -21,7 +21,7 @@ export const ZoneLedger: React.FC<ZoneLedgerProps> = ({ zone, entries, onEntrySe
     >
       <Title c="white" order={1}>{zone.name}</Title>
       {entries.map((entry) => (
-        <EventCard entry={entry} selected={false} onSelect={() => onEntrySelect(entry.id)}/>
+        <EventCard key={entry.id} entry={entry} onSelect={() => onEntrySelect(entry.id)}/>
       ))}
     </Flex>
   );

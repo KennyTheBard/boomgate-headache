@@ -5,11 +5,11 @@ import { JSX } from "react/jsx-runtime";
 
 type EventCardProps = {
   entry: EntryEvent;
-  selected: boolean;
   onSelect: () => void;
 };
 
-export const EventCard: React.FC<EventCardProps> = ({ entry, selected, onSelect }) => {
+export const EventCard: React.FC<EventCardProps> = ({ entry, onSelect }) => {
+  const selected = entry.selected;
 
   const decorateWithIndicator = (children: JSX.Element) => {
     return selected ? (
@@ -30,11 +30,13 @@ export const EventCard: React.FC<EventCardProps> = ({ entry, selected, onSelect 
       onClick={onSelect}
     >
       <Group justify="space-between">
-        <Text component="p" style={{userSelect: 'none'}}>{entry.fromZone.name}</Text>
-        <Text component="p" style={{userSelect: 'none'}} pr="xl" pl="xl">
+        <Text component="p" style={{ userSelect: "none" }}>
+          {entry.fromZone.name}
+        </Text>
+        <Text component="p" style={{ userSelect: "none" }} pr="xl" pl="xl">
           {entry.carPlate}
         </Text>
-        <Text component="p" style={{userSelect: 'none'}}>
+        <Text component="p" style={{ userSelect: "none" }}>
           {entry.at.getHours()}:{entry.at.getMinutes()}
         </Text>
       </Group>

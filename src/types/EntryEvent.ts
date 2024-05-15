@@ -6,4 +6,5 @@ export type EntryEvent = {
     carPlate: string;
     at: Date;
     fromZone: Zone;
+    selected?: boolean;
 }
